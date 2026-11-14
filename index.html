@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="제한된 기회 안에 숨겨진 숫자를 맞히는 UP & DOWN 게임" />
+  <meta name="theme-color" content="#111827" />
+  <title>UP & DOWN</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./css/reset.css" />
+  <link rel="stylesheet" href="./css/variables.css" />
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/responsive.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="UP & DOWN 홈">
+        <span class="brand__mark" aria-hidden="true">↕</span>
+        <span>UP &amp; DOWN</span>
+      </a>
+
+      <div class="header-actions">
+        <button
+          id="sound-toggle"
+          class="icon-button"
+          type="button"
+          aria-label="사운드 끄기"
+          aria-pressed="true"
+          title="사운드 설정"
+        >
+          <span id="sound-icon" aria-hidden="true">🔊</span>
+        </button>
+
+        <button
+          id="help-button"
+          class="icon-button"
+          type="button"
+          aria-label="게임 방법 열기"
+          title="게임 방법"
+        >
+          <span aria-hidden="true">?</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <!-- 시작 화면 -->
+      <section id="start-screen" class="screen screen--active" aria-labelledby="start-title">
+        <div class="hero">
+          <p class="eyebrow">NUMBER GUESSING GAME</p>
+          <h1 id="start-title">
+            숨겨진 숫자를<br />
+            <span class="gradient-text">찾아보세요!</span>
+          </h1>
+          <p class="hero__description">
+            UP과 DOWN 힌트를 따라 제한된 기회 안에 정답을 맞혀보세요.
+          </p>
+        </div>
+
+        <div class="panel difficulty-panel">
+          <div class="section-heading">
+            <div>
+              <p class="section-heading__label">STEP 1</p>
+              <h2>난이도 선택</h2>
+            </div>
+            <span class="section-heading__hint">기록은 난이도별로 저장돼요</span>
+          </div>
+
+          <div id="difficulty-list" class="difficulty-grid" role="radiogroup" aria-label="난이도 선택">
+            <!-- JavaScript 렌더링 -->
+          </div>
+        </div>
+
+        <div class="start-action">
+          <button id="start-button" class="button button--primary button--large" type="button">
+            <span>게임 시작</span>
+            <span aria-hidden="true">→</span>
+          </button>
+          <p class="start-action__hint">회원가입 없이 바로 시작할 수 있어요.</p>
+        </div>
+      </section>
+
+      <!-- 게임 화면 -->
+      <section id="game-screen" class="screen" aria-labelledby="game-title" hidden>
+        <div class="game-toolbar">
+          <div>
+            <p class="eyebrow">NOW PLAYING</p>
+            <h1 id="game-title">숫자를 추리하세요</h1>
+          </div>
+          <button id="quit-button" class="button button--ghost button--small" type="button">
+            게임 종료
+          </button>
+        </div>
+
+        <div class="game-layout">
+          <div class="game-main">
+            <div class="status-grid">
+              <article class="status-card status-card--range">
+                <span class="status-card__label">현재 가능한 범위</span>
+                <strong id="range-display" class="range-display">1 <span>~</span> 100</strong>
+                <div class="range-track" aria-hidden="true">
+                  <span id="range-track-fill"></span>
+                </div>
+              </article>
+
+              <article class="status-card status-card--attempts">
+                <span class="status-card__label">남은 기회</span>
+                <strong>
+                  <span id="attempts-remaining">10</span>
+                  <small>회</small>
+                </strong>
+                <div id="attempt-dots" class="attempt-dots" aria-hidden="true"></div>
+              </article>
+            </div>
+
+            <article id="result-card" class="result-card" aria-live="polite" aria-atomic="true">
+              <div id="result-icon" class="result-card__icon" aria-hidden="true">?</div>
+              <div>
+                <p id="result-label" class="result-card__label">첫 번째 숫자를 입력해 보세요</p>
+                <h2 id="result-message">정답은 현재 범위 안에 있어요.</h2>
+              </div>
+            </article>
+
+            <form id="guess-form" class="guess-form" novalidate>
+              <label for="guess-input">숫자 입력</label>
+              <div class="guess-form__row">
+                <input
+                  id="guess-input"
+                  name="guess"
+                  type="number"
+                  inputmode="numeric"
+                  autocomplete="off"
+                  placeholder="숫자 입력"
+                  aria-describedby="input-help input-error"
+                  required
+                />
+                <button class="button button--primary" type="submit">
+                  확인
+                </button>
+              </div>
+              <div class="input-meta">
+                <p id="input-help">현재 가능한 범위 안의 정수를 입력하세요.</p>
+                <p id="input-error" class="input-error" role="alert"></p>
+              </div>
+            </form>
+          </div>
+
+          <aside class="panel history-panel" aria-labelledby="history-title">
+            <div class="section-heading section-heading--compact">
+              <div>
+                <p class="section-heading__label">HISTORY</p>
+                <h2 id="history-title">입력 기록</h2>
+              </div>
+              <span id="history-count" class="badge">0회</span>
+            </div>
+
+            <ol id="history-list" class="history-list">
+              <li class="history-empty">
+                <span aria-hidden="true">⌁</span>
+                아직 입력 기록이 없어요.
+              </li>
+            </ol>
+          </aside>
+        </div>
+      </section>
+
+      <!-- 결과 화면 -->
+      <section id="result-screen" class="screen" aria-labelledby="final-title" hidden>
+        <div class="result-summary">
+          <div id="final-symbol" class="result-summary__symbol" aria-hidden="true">✓</div>
+          <p id="final-eyebrow" class="eyebrow">GAME CLEAR</p>
+          <h1 id="final-title">정답입니다!</h1>
+          <p id="final-description" class="result-summary__description"></p>
+
+          <div class="answer-card">
+            <span>정답</span>
+            <strong id="final-answer">63</strong>
+          </div>
+
+          <div class="result-stats">
+            <article>
+              <span>시도 횟수</span>
+              <strong id="final-attempts">6회</strong>
+            </article>
+            <article>
+              <span>난이도</span>
+              <strong id="final-difficulty">보통</strong>
+            </article>
+            <article>
+              <span>최고 기록</span>
+              <strong id="final-record">6회</strong>
+            </article>
+          </div>
+
+          <p id="new-record-message" class="new-record" hidden>
+            🏆 새로운 최고 기록이에요!
+          </p>
+
+          <div class="result-actions">
+            <button id="restart-button" class="button button--primary button--large" type="button">
+              다시 도전
+            </button>
+            <button id="share-button" class="button button--secondary button--large" type="button">
+              결과 공유
+            </button>
+            <button id="change-difficulty-button" class="button button--text" type="button">
+              난이도 변경
+            </button>
+          </div>
+
+          <p id="share-feedback" class="share-feedback" role="status"></p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>UP &amp; DOWN · Vanilla JavaScript</p>
+    </footer>
+  </div>
+
+  <!-- 게임 방법 모달 -->
+  <dialog id="help-dialog" class="dialog">
+    <div class="dialog__header">
+      <div>
+        <p class="section-heading__label">HOW TO PLAY</p>
+        <h2>게임 방법</h2>
+      </div>
+      <button id="help-close-button" class="icon-button" type="button" aria-label="게임 방법 닫기">
+        ×
+      </button>
+    </div>
+
+    <ol class="rule-list">
+      <li>
+        <span>1</span>
+        <div>
+          <strong>범위 안의 숫자를 입력하세요.</strong>
+          <p>난이도에 따라 숫자 범위와 기회가 달라집니다.</p>
+        </div>
+      </li>
+      <li>
+        <span>2</span>
+        <div>
+          <strong>UP이면 더 큰 숫자예요.</strong>
+          <p>입력한 숫자보다 정답이 높다는 뜻입니다.</p>
+        </div>
+      </li>
+      <li>
+        <span>3</span>
+        <div>
+          <strong>DOWN이면 더 작은 숫자예요.</strong>
+          <p>입력한 숫자보다 정답이 낮다는 뜻입니다.</p>
+        </div>
+      </li>
+      <li>
+        <span>4</span>
+        <div>
+          <strong>기회 안에 정답을 맞히세요.</strong>
+          <p>잘못된 형식이나 중복 입력은 기회에서 차감되지 않습니다.</p>
+        </div>
+      </li>
+    </ol>
+
+    <button id="help-confirm-button" class="button button--primary button--full" type="button">
+      확인했어요
+    </button>
+  </dialog>
+
+  <!-- 게임 종료 확인 모달 -->
+  <dialog id="quit-dialog" class="dialog dialog--small">
+    <div class="dialog__header">
+      <div>
+        <p class="section-heading__label">QUIT GAME</p>
+        <h2>게임을 종료할까요?</h2>
+      </div>
+    </div>
+    <p class="dialog__description">현재 게임 기록은 저장되지 않습니다.</p>
+    <div class="dialog__actions">
+      <button id="quit-cancel-button" class="button button--secondary" type="button">계속하기</button>
+      <button id="quit-confirm-button" class="button button--danger" type="button">종료하기</button>
+    </div>
+  </dialog>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>

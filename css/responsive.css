@@ -1,0 +1,212 @@
+@media (max-width: 860px) {
+  .main-content {
+    align-items: start;
+    padding-top: 24px;
+  }
+
+  .game-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .history-panel {
+    min-height: 300px;
+  }
+
+  .history-list {
+    max-height: 280px;
+  }
+}
+
+@media (max-width: 680px) {
+  .site-header,
+  .main-content,
+  .site-footer {
+    width: min(calc(100% - 28px), var(--content-width));
+  }
+
+  .site-header {
+    min-height: 68px;
+  }
+
+  .brand {
+    font-size: 0.82rem;
+  }
+
+  .brand__mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+  }
+
+  .icon-button {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+  }
+
+  .main-content {
+    padding-block: 24px 52px;
+  }
+
+  .hero {
+    margin-bottom: 26px;
+  }
+
+  .hero__description {
+    font-size: 0.93rem;
+  }
+
+  .difficulty-panel {
+    padding: 18px;
+  }
+
+  .section-heading {
+    align-items: start;
+  }
+
+  .section-heading__hint {
+    display: none;
+  }
+
+  .difficulty-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .difficulty-card {
+    min-height: auto;
+    padding: 17px;
+  }
+
+  .difficulty-card__range {
+    margin-top: 7px;
+    font-size: 1.25rem;
+  }
+
+  .difficulty-card__record {
+    margin-top: 7px;
+  }
+
+  .game-toolbar {
+    align-items: center;
+  }
+
+  .status-grid {
+    grid-template-columns: 1fr 0.72fr;
+    gap: 10px;
+  }
+
+  .status-card {
+    min-height: 130px;
+    padding: 17px;
+    border-radius: 18px;
+  }
+
+  .range-display {
+    margin-top: 17px;
+    font-size: 1.8rem;
+  }
+
+  .status-card--attempts strong {
+    margin-top: 13px;
+    font-size: 2.5rem;
+  }
+
+  .attempt-dots {
+    display: none;
+  }
+
+  .result-card {
+    min-height: 126px;
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .result-card__icon {
+    width: 56px;
+    height: 56px;
+    flex-basis: 56px;
+    border-radius: 17px;
+  }
+
+  .guess-form {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .guess-form__row {
+    grid-template-columns: 1fr 86px;
+  }
+
+  .guess-form__row .button {
+    padding-inline: 16px;
+  }
+
+  .input-meta {
+    display: block;
+  }
+
+  .input-error {
+    margin-top: 4px;
+    text-align: left;
+  }
+
+  .result-stats article {
+    padding: 13px 8px;
+  }
+
+  .result-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .result-actions .button {
+    width: 100%;
+  }
+
+  .dialog {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 420px) {
+  .status-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .status-card {
+    min-height: 112px;
+  }
+
+  .range-track {
+    margin-top: 12px;
+  }
+
+  .status-card--attempts {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .status-card--attempts strong {
+    margin-top: 0;
+  }
+
+  .result-card {
+    align-items: flex-start;
+  }
+
+  .result-card__icon {
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
+    font-size: 1.5rem;
+  }
+
+  .guess-form__row {
+    grid-template-columns: 1fr;
+  }
+
+  .dialog__actions {
+    grid-template-columns: 1fr;
+  }
+}
